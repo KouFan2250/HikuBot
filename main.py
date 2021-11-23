@@ -8,7 +8,7 @@ bot = commands.Bot(command_prefix='m.')
 @bot.event
 async def on_ready():
     discord_components.DiscordComponents(bot)   
-    await bot.change_presence(activity=discord.Game("wat"))
+    await bot.change_presence(activity=discord.Game("HikuBot!"))
     print("Ready!")
 @bot.event
 async def on_button_click(interaction):

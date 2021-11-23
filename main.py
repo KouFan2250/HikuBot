@@ -8,28 +8,28 @@ bot = commands.Bot(command_prefix='m.')
 @bot.event
 async def on_ready():
     discord_components.DiscordComponents(bot)   
-    await bot.change_presence(activity=discord.Game("wat"))
+    await bot.change_presence(activity=discord.Game("Stable"))
     print("Ready!")
 @bot.event
 async def on_button_click(interaction):
     global pagelist
-    if interaction.component.label == "Default Button":
-        print(interaction.channel_id)
     if interaction.component.label == "back":
-        if pagelist['helplist'][interaction.message.id] == 0:
+        if pagelist['helplist'][str(interaction.message.id)] == 0:
             pass
         else:
             a = await bot.get_channel(interaction.channel_id).fetch_message(interaction.message.id)
-            pagelist['helplist'][interaction.message.id] -= 1
-            await a.edit(embed=tools.help_pages[pagelist['helplist'][interaction.message.id]])
+            pagelist['helplist'][str(interaction.message.id)] -= 1
+            th = pagelist['helplist'][str(interaction.message.id)]
+            await a.edit(embed=tools.help_pages[int(th)])
             tools.saveconfig(pagelist)
     if interaction.component.label == "next":
-        if pagelist['helplist'][interaction.message.id] == 3:
+        if pagelist['helplist'][str(interaction.message.id)] == 3:
             pass
         else:
             a = await bot.get_channel(interaction.channel_id).fetch_message(interaction.message.id)
-            pagelist['helplist'][interaction.message.id] += 1
-            await a.edit(embed=tools.help_pages[pagelist['helplist'][interaction.message.id]])
+            pagelist['helplist'][str(interaction.message.id)] += 1
+            th = pagelist['helplist'][str(interaction.message.id)]
+            await a.edit(embed=tools.help_pages[int(th)])
             tools.saveconfig(pagelist)
 
     try:

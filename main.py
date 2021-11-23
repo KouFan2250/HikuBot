@@ -13,8 +13,6 @@ async def on_ready():
 @bot.event
 async def on_button_click(interaction):
     global pagelist
-    if interaction.component.label == "Default Button":
-        print(interaction.channel_id)
     if interaction.component.label == "back":
         if pagelist['helplist'][interaction.message.id] == 0:
             pass

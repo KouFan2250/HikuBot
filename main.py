@@ -12,6 +12,7 @@ async def on_ready():
     print("Ready!")
 @bot.event
 async def on_button_click(interaction):
+    #ページ用
     global pagelist
     if interaction.component.label == "back":
         if pagelist['helplist'][interaction.message.id] == 0:

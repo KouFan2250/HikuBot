@@ -3,9 +3,9 @@ import discord
 from discord.ext import commands
 from youtube_dl import YoutubeDL
 
-FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
+queue = []
 
-YDL_OPTIONS = {
+YDL_OPTIONS = = {
             "format" : "bestaudio",
             "postprocessors" : [{
                 "key" : "FFmpegExtractAudio",
@@ -14,49 +14,62 @@ YDL_OPTIONS = {
             }], "noplaylist" : "True"
         }
 
+FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
+
+def play_next():
+    queue.pop(0)
+    if len(queue) >= 1:
+        source = queue[0]['source']
+        voice.play(discord.FFmpegPCMAudio(queue[0]['source'], FFMPEG_OPTIONS), after=lambda e: play_next())
+        voice.source = discord.PCMVolumeTransformer(voice.source)
+        voice.source.volume = 0.07
+
+def lstr(list : Iterable):
+        string = f"{list[0]}"
+        for i in range(1, len(list)):
+            string += f" {list[i]}"
+        return string
+
+def search_yt(item):
+        with YoutubeDL(YDL_OPTIONS) as ydl:
+            try: 
+                info = ydl.extract_info("ytsearch:%s" % item, download=False)['entries'][0]
+            except Exception: 
+                return False
+
+        return {'source': info['formats'][0]['url'], 'title': info['title']}
+
+
+
 class music(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self._last_member = None
+    @commands.command(pass_context=True, aliases=['p', 'pla'])
+    async def play(ctx, *query):
+         query = lstr(query)
+         song = search_yt(query)
+         queue.append[song]
+         global voice
+         channel = ctx.message.author.voice.channel
+         voice = get(bot.voice_clients, guild=ctx.guild)
 
-    @commands.command()
-    async def join(self,ctx):
-        await ctx.message.author.voice.channel.connect()      
-        await ctx.send("Joined!")
-    @commands.command()
-    async def leave(self,ctx):
-        await ctx.message.author.guild.voice_client.disconnect()
-    @commands.command()
-    async def play(self,ctx,link):
-        await ctx.send("お待ちください...")
-        with ctx.message.channel.typing():
-            with YoutubeDL(YDL_OPTIONS) as ydl:
-                try: 
-                    info = ydl.extract_info("ytsearch:%s" % link, download=False)['entries'][0]
-                except Exception: 
-                    pass
+         if voice and voice.is_connected():
+             await voice.move_to(channel)
+         else:
+             voice = await channel.connect()
 
-            
-            
-            
-            voice = ctx.message.author.guild.voice_client
-            
-            voice.play(discord.FFmpegPCMAudio(info['formats'][0]['url'], FFMPEG_OPTIONS))
-            voice.source = discord.PCMVolumeTransformer(voice.source)
-            voice.source.volume = 0.07
-            
-            
-         
-            await ctx.message.channel.send(f'再生しています！')
-    @commands.command(aliases=["resume"])
-    async def pause(self, ctx):
-        """Pauses any currently playing audio."""
-        client = ctx.guild.voice_client
-        if client.is_paused():
-            client.resume()
-        else:
-            client.pause()
+         await voice.disconnect()
 
+         if voice and voice.is_connected():
+             await voice.move_to(channel)
+         else:
+             voice = await channel.connect()
+             print(f"The bot has connected to {channel}\n")
+
+         voice.play(discord.FFmpegPCMAudio(queue[0]['source'], FFMPEG_OPTIONS), after=lambda e: play_next())
+         voice.source = discord.PCMVolumeTransformer(voice.source)
+         voice.source.volume = 0.07
+    
 def setup(bot):
     bot.add_cog(music(bot))
     print("Ready Music!")

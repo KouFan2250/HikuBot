@@ -60,7 +60,7 @@ class music(commands.Cog):
             #player = await YTDLSource.from_url(link, loop=asyncio.get_event_loop())
             ctx.message.author.guild.voice_client.play(source, after=lambda e: print(
                 'Player error: %s' % e) if e else None)
-            await ctx.message.channel.send(f'{source.title}を再生しています！')
+            await ctx.message.channel.send(f'再生しています！')
     @commands.command(aliases=["resume"])
     async def pause(self, ctx):
         """Pauses any currently playing audio."""

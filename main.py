@@ -82,7 +82,7 @@ async def play(ctx, *query):
     else:
         voice = await channel.connect()
         print(f"The bot has connected to {channel}\n")
-    a = discord.FFmpegPCMAudio(None , queue[0]['source'], FFMPEG_OPTIONS)
+    a = discord.FFmpegPCMAudio(queue[0]['source'])#, FFMPEG_OPTIONS)
     voice.play(a, after=lambda e: play_next())
     voice.source = discord.PCMVolumeTransformer(voice.source)
     voice.source.volume = 0.07

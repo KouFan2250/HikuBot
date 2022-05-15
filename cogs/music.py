@@ -39,7 +39,7 @@ class music(commands.Cog):
             
             
             
-            voice = get(bot.voice_clients, guild=ctx.guild)
+            voice = ctx.message.author.guild.voice_client
             
             voice.play(discord.FFmpegPCMAudio(info['formats'][0]['url'], FFMPEG_OPTIONS))
             voice.source = discord.PCMVolumeTransformer(voice.source)

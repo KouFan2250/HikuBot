@@ -5,7 +5,7 @@ from youtube_dl import YoutubeDL
 
 queue = []
 
-YDL_OPTIONS = = {
+YDL_OPTIONS = {
             "format" : "bestaudio",
             "postprocessors" : [{
                 "key" : "FFmpegExtractAudio",

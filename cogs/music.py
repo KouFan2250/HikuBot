@@ -17,6 +17,7 @@ ytdl_format_options = {
 ffmpeg_options = {
     'options': '-vn'
 }
+FFMPEG_BEFORE_OPTS = '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5'
 ytdl = youtube_dl.YoutubeDL(ytdl_format_options)
 class YTDLSource(discord.PCMVolumeTransformer):
     def __init__(self, source, *, data, volume=0.5):
@@ -53,8 +54,11 @@ class music(commands.Cog):
     async def play(self,ctx,link):
         await ctx.send("お待ちください...")
         with ctx.message.channel.typing():
-            player = await YTDLSource.from_url(link, loop=asyncio.get_event_loop())
-            ctx.message.author.guild.voice_client.play(player, after=lambda e: print(
+            source = discord.PCMVolumeTransformer(
+            discord.FFmpegPCMAudio(link, before_options=FFMPEG_BEFORE_OPTS), volume=1.0)
+            
+            #player = await YTDLSource.from_url(link, loop=asyncio.get_event_loop())
+            ctx.message.author.guild.voice_client.play(source, after=lambda e: print(
                 'Player error: %s' % e) if e else None)
             await ctx.message.channel.send(f'{player.title}を再生しています！')
     @commands.command(aliases=["resume"])

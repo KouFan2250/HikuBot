@@ -48,7 +48,7 @@ class music(commands.Cog):
     async def play(ctx, *query):
          query = lstr(query)
          song = search_yt(query)
-         queue.append[song]
+         queue.append(song)
          global voice
          channel = ctx.message.author.voice.channel
          voice = get(bot.voice_clients, guild=ctx.guild)

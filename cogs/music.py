@@ -71,5 +71,5 @@ class music(commands.Cog):
          voice.source.volume = 0.07
     
 def setup(bot):
-    bot.add_cog(music(bot))
+    bot.add_cog(music(bot,'a'))
     print("Ready Music!")

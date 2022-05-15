@@ -42,7 +42,7 @@ def search_yt(item):
 
 
 class music(commands.Cog):
-    def __init__(self, bot):
+    def __init__(self, bot , a):
         self.bot = bot
     @commands.command(pass_context=True, aliases=['p', 'pla'])
     async def play(self, ctx, *query):

@@ -16,9 +16,9 @@ async def on_ready():
         bot.load_extension("cogs." + i)
     print("Ready!")
 
-@bot.event
-async def on_command_error(ctx, error):
-    await ctx.send(error)
+#@bot.event
+#async def on_command_error(ctx, error):
+#   await ctx.send(error)
 
 from youtube_dl import YoutubeDL
 from collections import Iterable

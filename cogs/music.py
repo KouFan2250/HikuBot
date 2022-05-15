@@ -51,7 +51,7 @@ class music(commands.Cog):
          queue.append(song)
          global voice
          channel = ctx.message.author.voice.channel
-         voice = get(bot.voice_clients, guild=ctx.guild)
+         voice = ctx.voice_client
 
          if voice and voice.is_connected():
              await voice.move_to(channel)

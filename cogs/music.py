@@ -45,7 +45,7 @@ class music(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
     @commands.command(pass_context=True, aliases=['p', 'pla'])
-    async def play(ctx, *query):
+    async def play(self, ctx, *query):
          query = lstr(query)
          song = search_yt(query)
          queue.append(song)

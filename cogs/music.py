@@ -1,7 +1,7 @@
 import asyncio
 import discord
 from discord.ext import commands
-import youtube_dl
+from youtube_dl import YoutubeDL
 
 FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
 

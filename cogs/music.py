@@ -2,7 +2,7 @@ import asyncio
 import discord
 from discord.ext import commands
 from youtube_dl import YoutubeDL
-import Iterable
+from collections import Iterable
 queue = []
 
 YDL_OPTIONS = {

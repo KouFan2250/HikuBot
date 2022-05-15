@@ -35,7 +35,7 @@ YDL_OPTIONS = {
             }], "noplaylist" : "True"
         }
 
-FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
+FFMPEG_OPTIONS = {"before_options": "-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5","options": "-vn"}
 
 def play_next():
     queue.pop(0)

@@ -20,6 +20,8 @@ async def on_ready():
 async def on_command_error(ctx, error):
     await ctx.send(error)
 
+from youtube_dl import YoutubeDL
+from collections import Iterable
     
     
 queue = []
